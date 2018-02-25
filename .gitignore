@@ -90,3 +90,14 @@ ENV/
 
 # PyCharm
 .idea/
+
+# Dataset Files
+*.tar
+*.tar.gz
+
+# Dataset Record Files
+*.record
+
+# SSD-related
+research/ssd*/
+research/SSD*/
