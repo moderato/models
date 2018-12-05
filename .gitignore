@@ -91,13 +91,7 @@ ENV/
 # PyCharm
 .idea/
 
-# Dataset Files
-*.tar
-*.tar.gz
+# For mac
+.DS_Store
 
-# Dataset Record Files
-*.record
-
-# SSD-related
-research/ssd*/
-research/SSD*/
+samples/outreach/blogs/segmentation_blogpost/carvana-image-masking-challenge/
