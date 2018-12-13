@@ -95,3 +95,9 @@ ENV/
 .DS_Store
 
 samples/outreach/blogs/segmentation_blogpost/carvana-image-masking-challenge/
+
+# Protos
+research/object_detection/protos/
+
+# Pretrained models
+research/object_detection/trained_models
