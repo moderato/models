@@ -1,5 +1,6 @@
- python /home/matthew/models/research/object_detection/legacy/train.py \
- --train_dir=/home/matthew/ssd_mobilenet_tensorflow/train \
- --pipeline_config_path=/home/matthew/ssd_mobilenet_tensorflow/models/ssd_mobilenet_gtsdb.config \
- -alsologtostderr
+cd ..
+python object_detection/legacy/train.py \
+    --train_dir=object_detection/trained_models/gtsdb_ssd_mobilenet_v1/train_logs \
+    --pipeline_config_path=object_detection/trained_models/gtsdb_ssd_mobilenet_v1/ssd_mobilnet_v1_gtsdb.config \
+    --alsologtostderr
 

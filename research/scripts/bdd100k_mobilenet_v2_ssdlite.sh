@@ -1,6 +1,6 @@
 cd ..
-PIPELINE_CONFIG_PATH=/home/zhongyilin/Documents/models/research/object_detection/trained_models/bdd100k_ssdlite_mobilenet_v2/ssdlite_mobilenet_v2_bdd100k.config
-MODEL_DIR=/home/zhongyilin/Documents/models/research/object_detection/trained_models/bdd100k_ssdlite_mobilenet_v2/train_logs
+PIPELINE_CONFIG_PATH=$HOME/Documents/models/research/object_detection/trained_models/bdd100k_ssdlite_mobilenet_v2/ssdlite_mobilenet_v2_bdd100k.config
+MODEL_DIR=$HOME/Documents/models/research/object_detection/trained_models/bdd100k_ssdlite_mobilenet_v2/train_logs
 NUM_TRAIN_STEPS=200000
 SAMPLE_1_OF_N_EVAL_EXAMPLES=1
 # python object_detection/model_main.py \
