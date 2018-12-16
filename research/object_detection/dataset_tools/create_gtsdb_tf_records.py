@@ -229,8 +229,8 @@ def _find_image_bounding_boxes(directory, cur_record):
   labels_text = []
   difficult = []
   truncated = []
-
-  gt = open("gt.txt", "r")
+  gt_path = os.path.join(directory, "../gt.txt")
+  gt = open(gt_path, "r")
   for line in gt:
       if re.match(cur_record[1][0:5] + "(.*)", line):
           obj=re.findall(r'\d+',line)
@@ -243,13 +243,13 @@ def _find_image_bounding_boxes(directory, cur_record):
                            float(obj[4]) / shape[0],
                            float(obj[3]) / shape[1]
                            ))
-  print(cur_record[1][0:5])
-  print(shape)
-  print(bboxes)
-  print(labels)
-  print(labels_text)
-  print(difficult)
-  print(truncated)
+  # print(cur_record[1][0:5])
+  # print(shape)
+  # print(bboxes)
+  # print(labels)
+  # print(labels_text)
+  # print(difficult)
+  # print(truncated)
   return bboxes, labels, labels_text, difficult, truncated
 
 def _process_image_files_batch(coder, thread_index, ranges, name, directory, all_records, num_shards):
@@ -363,6 +363,10 @@ def _process_dataset(name, directory, all_splits, num_shards):
     num_shards: integer number of shards for this data set.
   """
   all_records = []
+  print(name)
+  print(directory)
+  print(all_splits)
+  print(num_shards)
   for split in all_splits:
     jpeg_file_path = os.path.join(directory, split, '')
     images = tf.gfile.ListDirectory(jpeg_file_path)
@@ -387,6 +391,7 @@ def main(unused_argv):
   print('Saving results to %s' % FLAGS.output_directory)
 
   # Run it!
+  print(FLAGS.dataset_directory)
   _process_dataset('val', FLAGS.dataset_directory, parse_comma_list(FLAGS.validation_splits), FLAGS.validation_shards)
   _process_dataset('train', FLAGS.dataset_directory, parse_comma_list(FLAGS.train_splits), FLAGS.train_shards)
 

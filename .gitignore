@@ -100,4 +100,4 @@ samples/outreach/blogs/segmentation_blogpost/carvana-image-masking-challenge/
 research/object_detection/protos/
 
 # Pretrained models
-research/object_detection/trained_models/*/train_logs
+research/object_detection/trained_models/
