@@ -243,13 +243,13 @@ def _find_image_bounding_boxes(directory, cur_record):
                            float(obj[4]) / shape[0],
                            float(obj[3]) / shape[1]
                            ))
-  # print(cur_record[1][0:5])
-  # print(shape)
-  # print(bboxes)
-  # print(labels)
-  # print(labels_text)
-  # print(difficult)
-  # print(truncated)
+  print(cur_record[1][0:5])
+  print(shape)
+  print(bboxes)
+  print(labels)
+  print(labels_text)
+  print(difficult)
+  print(truncated)
   return bboxes, labels, labels_text, difficult, truncated
 
 def _process_image_files_batch(coder, thread_index, ranges, name, directory, all_records, num_shards):
