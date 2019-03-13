@@ -53,6 +53,9 @@ from object_detection.predictors import rfcn_box_predictor
 from object_detection.protos import model_pb2
 from object_detection.utils import ops
 
+# Self-made feature extractors
+from object_detection.models import ssd_resnet_v1_feature_extractor as ssd_resnet_v1
+
 # A map of names to SSD feature extractors.
 SSD_FEATURE_EXTRACTOR_CLASS_MAP = {
     'ssd_inception_v2': SSDInceptionV2FeatureExtractor,
@@ -72,6 +75,9 @@ SSD_FEATURE_EXTRACTOR_CLASS_MAP = {
         ssd_resnet_v1_ppn.SSDResnet152V1PpnFeatureExtractor,
     'embedded_ssd_mobilenet_v1': EmbeddedSSDMobileNetV1FeatureExtractor,
     'ssd_pnasnet': SSDPNASNetFeatureExtractor,
+
+    # Self-made
+    'ssd_resnet50_v1': ssd_resnet_v1.SSDResnet50V1FeatureExtractor,
 }
 
 SSD_KERAS_FEATURE_EXTRACTOR_CLASS_MAP = {

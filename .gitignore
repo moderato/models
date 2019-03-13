@@ -101,3 +101,6 @@ research/object_detection/protos/
 
 # Pretrained models
 research/object_detection/trained_models/
+
+# pycoco
+research/pycocotools/
