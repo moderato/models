@@ -78,6 +78,7 @@ SSD_FEATURE_EXTRACTOR_CLASS_MAP = {
 
     # Self-made
     'ssd_resnet50_v1': ssd_resnet_v1.SSDResnet50V1FeatureExtractor,
+    'ssd_resnet18_v1': ssd_resnet_v1.SSDResnet18V1FeatureExtractor,
 }
 
 SSD_KERAS_FEATURE_EXTRACTOR_CLASS_MAP = {

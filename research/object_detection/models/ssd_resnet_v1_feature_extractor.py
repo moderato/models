@@ -123,11 +123,6 @@ class SSDResnetV1FeatureExtractor(ssd_meta_arch.SSDFeatureExtractor):
     if self._depth_multiplier != 1.0:
       raise ValueError('Depth multiplier not supported.')
 
-    # print("^^^^^")
-    # print(preprocessed_inputs)
-    # print(type(preprocessed_inputs))
-    # print("^^^^^")
-
     preprocessed_inputs = shape_utils.check_min_image_dim(
         129, preprocessed_inputs)
 
@@ -154,12 +149,6 @@ class SSDResnetV1FeatureExtractor(ssd_meta_arch.SSDFeatureExtractor):
               store_non_strided_activations=True,
               scope=scope)
           image_features = self._filter_features(image_features)
-          # print("^^^^^")
-          # for key, img in image_features.items():
-          #   print(key, img)
-          #   print("&&&")
-          # print(type(image_features))
-          # print("^^^^^")
 
       with slim.arg_scope(self._conv_hyperparams_fn()):
         feature_maps = feature_map_generators.multi_resolution_feature_maps(
@@ -176,8 +165,8 @@ class SSDResnetV1FeatureExtractor(ssd_meta_arch.SSDFeatureExtractor):
         
     return feature_maps.values()
 
-class SSDResnet50V1FeatureExtractor(SSDResnetV1FeatureExtractor):
-  """SSD Resnet50 V1 FPN feature extractor."""
+class SSDResnet18V1FeatureExtractor(SSDResnetV1FeatureExtractor):
+  """SSD Resnet18 V1 feature extractor."""
 
   def __init__(self,
                is_training,
@@ -190,7 +179,57 @@ class SSDResnet50V1FeatureExtractor(SSDResnetV1FeatureExtractor):
                use_explicit_padding=False,
                use_depthwise=False,
                override_base_feature_extractor_hyperparams=False):
-    """SSD Resnet50 V1 FPN feature extractor based on Resnet v1 architecture.
+    """SSD Resnet18 V1 feature extractor based on Resnet v1 architecture.
+
+    Args:
+      is_training: whether the network is in training mode.
+      depth_multiplier: float depth multiplier for feature extractor.
+        UNUSED currently.
+      min_depth: minimum feature extractor depth. UNUSED Currently.
+      pad_to_multiple: the nearest multiple to zero pad the input height and
+        width dimensions to.
+      conv_hyperparams_fn: A function to construct tf slim arg_scope for conv2d
+        and separable_conv2d ops in the layers that are added on top of the
+        base feature extractor.
+      additional_layer_depth: additional feature map layer channel depth.
+      reuse_weights: Whether to reuse variables. Default is None.
+      use_explicit_padding: Whether to use explicit padding when extracting
+        features. Default is False. UNUSED currently.
+      use_depthwise: Whether to use depthwise convolutions. UNUSED currently.
+      override_base_feature_extractor_hyperparams: Whether to override
+        hyperparameters of the base feature extractor with the one from
+        `conv_hyperparams_fn`.
+    """
+    super(SSDResnet18V1FeatureExtractor, self).__init__(
+        is_training,
+        depth_multiplier,
+        min_depth,
+        pad_to_multiple,
+        conv_hyperparams_fn,
+        resnet_v1.resnet_v1_18,
+        'resnet_v1_18',
+        additional_layer_depth,
+        reuse_weights=reuse_weights,
+        use_explicit_padding=use_explicit_padding,
+        use_depthwise=use_depthwise,
+        override_base_feature_extractor_hyperparams=
+        override_base_feature_extractor_hyperparams)
+
+class SSDResnet50V1FeatureExtractor(SSDResnetV1FeatureExtractor):
+  """SSD Resnet50 V1 feature extractor."""
+
+  def __init__(self,
+               is_training,
+               depth_multiplier,
+               min_depth,
+               pad_to_multiple,
+               conv_hyperparams_fn,
+               additional_layer_depth=256,
+               reuse_weights=None,
+               use_explicit_padding=False,
+               use_depthwise=False,
+               override_base_feature_extractor_hyperparams=False):
+    """SSD Resnet50 V1 feature extractor based on Resnet v1 architecture.
 
     Args:
       is_training: whether the network is in training mode.
