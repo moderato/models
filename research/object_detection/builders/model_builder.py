@@ -55,6 +55,8 @@ from object_detection.utils import ops
 
 # Self-made feature extractors
 from object_detection.models import ssd_resnet_v1_feature_extractor as ssd_resnet_v1
+from object_detection.models import ssd_squeezenet_v11_feature_extractor as ssd_squeezenet_v11
+from object_detection.models import ssd_vgg_feature_extractor as ssd_vgg
 
 # A map of names to SSD feature extractors.
 SSD_FEATURE_EXTRACTOR_CLASS_MAP = {
@@ -79,6 +81,8 @@ SSD_FEATURE_EXTRACTOR_CLASS_MAP = {
     # Self-made
     'ssd_resnet50_v1': ssd_resnet_v1.SSDResnet50V1FeatureExtractor,
     'ssd_resnet18_v1': ssd_resnet_v1.SSDResnet18V1FeatureExtractor,
+    'ssd_squeezenet_v11': ssd_squeezenet_v11.SSDSqueezeNetV11FeatureExtractor,
+    'ssd_vgg16': ssd_vgg.SSDVGG16FeatureExtractor,
 }
 
 SSD_KERAS_FEATURE_EXTRACTOR_CLASS_MAP = {

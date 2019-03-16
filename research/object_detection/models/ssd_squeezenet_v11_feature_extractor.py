@@ -85,8 +85,7 @@ class SSDSqueezeNetV11FeatureExtractor(ssd_meta_arch.SSDFeatureExtractor):
         33, preprocessed_inputs)
 
     feature_map_layout = {
-        'from_layer': ['fire5/concat', 'fire9/concat', '', '',
-                       '', ''],
+        'from_layer': ['fire5/concat', 'fire9/concat', '', '', '', ''],
         'layer_depth': [-1, -1, 512, 256, 256, 128],
         'use_explicit_padding': self._use_explicit_padding,
         'use_depthwise': self._use_depthwise,
@@ -110,5 +109,4 @@ class SSDSqueezeNetV11FeatureExtractor(ssd_meta_arch.SSDFeatureExtractor):
             min_depth=self._min_depth,
             insert_1x1_conv=True,
             image_features=image_features)
-
     return feature_maps.values()

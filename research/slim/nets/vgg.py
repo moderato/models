@@ -148,7 +148,8 @@ def vgg_16(inputs,
            spatial_squeeze=True,
            scope='vgg_16',
            fc_conv_padding='VALID',
-           global_pool=False):
+           global_pool=False,
+           is_reduced=False):
   """Oxford Net VGG 16-Layers version D Example.
 
   Note: All the fully_connected layers have been transformed to conv2d layers.
@@ -173,6 +174,7 @@ def vgg_16(inputs,
     global_pool: Optional boolean flag. If True, the input to the classification
       layer is avgpooled to size 1x1, for any input size. (This is not part
       of the original VGG architecture.)
+    is_reduced: Dilated 3x3 1024 fc6, no dropout6, and 1024 fc7 for VGG-SSD
 
   Returns:
     net: the output of the logits layer (if num_classes is a non-zero integer),
@@ -184,6 +186,9 @@ def vgg_16(inputs,
     # Collect outputs for conv2d, fully_connected and max_pool2d.
     with slim.arg_scope([slim.conv2d, slim.fully_connected, slim.max_pool2d],
                         outputs_collections=end_points_collection):
+      # Convert end_points_collection into a end_point dict.
+      end_points = slim.utils.convert_collection_to_dict(end_points_collection)
+
       net = slim.repeat(inputs, 2, slim.conv2d, 64, [3, 3], scope='conv1')
       net = slim.max_pool2d(net, [2, 2], scope='pool1')
       net = slim.repeat(net, 2, slim.conv2d, 128, [3, 3], scope='conv2')
@@ -191,17 +196,23 @@ def vgg_16(inputs,
       net = slim.repeat(net, 3, slim.conv2d, 256, [3, 3], scope='conv3')
       net = slim.max_pool2d(net, [2, 2], scope='pool3')
       net = slim.repeat(net, 3, slim.conv2d, 512, [3, 3], scope='conv4')
+      if is_reduced: # For VGG-SSD
+        end_points['conv4_3'] = net
       net = slim.max_pool2d(net, [2, 2], scope='pool4')
       net = slim.repeat(net, 3, slim.conv2d, 512, [3, 3], scope='conv5')
       net = slim.max_pool2d(net, [2, 2], scope='pool5')
 
       # Use conv2d instead of fully_connected layers.
-      net = slim.conv2d(net, 4096, [7, 7], padding=fc_conv_padding, scope='fc6')
-      net = slim.dropout(net, dropout_keep_prob, is_training=is_training,
-                         scope='dropout6')
-      net = slim.conv2d(net, 4096, [1, 1], scope='fc7')
-      # Convert end_points_collection into a end_point dict.
-      end_points = slim.utils.convert_collection_to_dict(end_points_collection)
+      if is_reduced:
+        net = slim.conv2d(net, 1024, [3, 3], padding='SAME', rate=6, scope='fc6')
+        net = slim.conv2d(net, 1024, [1, 1], scope='fc7')
+        end_points['fc7'] = net
+      else:
+        net = slim.conv2d(net, 4096, [7, 7], padding=fc_conv_padding, scope='fc6')
+        net = slim.dropout(net, dropout_keep_prob, is_training=is_training,
+                           scope='dropout6')
+        net = slim.conv2d(net, 4096, [1, 1], scope='fc7')
+
       if global_pool:
         net = tf.reduce_mean(net, [1, 2], keep_dims=True, name='global_pool')
         end_points['global_pool'] = net

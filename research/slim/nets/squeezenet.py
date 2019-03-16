@@ -55,65 +55,74 @@ def squeezenet_v11(inputs,
     # Collect outputs for conv2d, fully_connected and max_pool2d.
     with slim.arg_scope([slim.conv2d, slim.max_pool2d],
                         outputs_collections=end_points_collection):
+      # End points collection
+      end_points = slim.utils.convert_collection_to_dict(end_points_collection)
 
       net = slim.conv2d(inputs, 64, [3, 3], stride=2, padding='SAME', scope='conv1')
-      
+
       net = slim.max_pool2d(net, [2, 2], scope='pool1')
 
       # fire2
       net = slim.conv2d(net, 16, [1, 1], stride=1, padding='SAME', scope='fire2/squeeze')
       expand1 = slim.conv2d(net, 64, [1, 1], stride=1, padding='SAME', scope='fire2/expand1')
-      expand3 = slim.conv2d(net, 64, [3, 3], stride=1, padding='VALID', scope='fire2/expand3')
-      net = tf.concat(axis=3, [expand1, expand3], name='fire2/concat')
+      expand3 = slim.conv2d(net, 64, [3, 3], stride=1, padding='SAME', scope='fire2/expand3')
+      net = tf.concat([expand1, expand3], axis=3, name='fire2/concat')
+      end_points['fire2/concat'] = net
 
       # fire3
       net = slim.conv2d(net, 16, [1, 1], stride=1, padding='SAME', scope='fire3/squeeze')
       expand1 = slim.conv2d(net, 64, [1, 1], stride=1, padding='SAME', scope='fire3/expand1')
-      expand3 = slim.conv2d(net, 64, [3, 3], stride=1, padding='VALID', scope='fire3/expand3')
-      net = tf.concat(axis=3, [expand1, expand3], name='fire3/concat')
+      expand3 = slim.conv2d(net, 64, [3, 3], stride=1, padding='SAME', scope='fire3/expand3')
+      net = tf.concat([expand1, expand3], axis=3, name='fire3/concat')
+      end_points['fire3/concat'] = net
 
       net = slim.max_pool2d(net, [2, 2], scope='pool3')
 
       # fire4
       net = slim.conv2d(net, 32, [1, 1], stride=1, padding='SAME', scope='fire4/squeeze')
       expand1 = slim.conv2d(net, 128, [1, 1], stride=1, padding='SAME', scope='fire4/expand1')
-      expand3 = slim.conv2d(net, 128, [3, 3], stride=1, padding='VALID', scope='fire4/expand3')
-      net = tf.concat(axis=3, [expand1, expand3], name='fire4/concat')
+      expand3 = slim.conv2d(net, 128, [3, 3], stride=1, padding='SAME', scope='fire4/expand3')
+      net = tf.concat([expand1, expand3], axis=3, name='fire4/concat')
+      end_points['fire4/concat'] = net
 
       # fire5
       net = slim.conv2d(net, 32, [1, 1], stride=1, padding='SAME', scope='fire5/squeeze')
       expand1 = slim.conv2d(net, 128, [1, 1], stride=1, padding='SAME', scope='fire5/expand1')
-      expand3 = slim.conv2d(net, 128, [3, 3], stride=1, padding='VALID', scope='fire5/expand3')
-      net = tf.concat(axis=3, [expand1, expand3], name='fire5/concat')
+      expand3 = slim.conv2d(net, 128, [3, 3], stride=1, padding='SAME', scope='fire5/expand3')
+      net = tf.concat([expand1, expand3], axis=3, name='fire5/concat')
+      end_points['fire5/concat'] = net
 
       net = slim.max_pool2d(net, [2, 2], scope='pool5')
 
       # fire6
       net = slim.conv2d(net, 48, [1, 1], stride=1, padding='SAME', scope='fire6/squeeze')
       expand1 = slim.conv2d(net, 192, [1, 1], stride=1, padding='SAME', scope='fire6/expand1')
-      expand3 = slim.conv2d(net, 192, [3, 3], stride=1, padding='VALID', scope='fire6/expand3')
-      net = tf.concat(axis=3, [expand1, expand3], name='fire6/concat')
+      expand3 = slim.conv2d(net, 192, [3, 3], stride=1, padding='SAME', scope='fire6/expand3')
+      net = tf.concat([expand1, expand3], axis=3, name='fire6/concat')
+      end_points['fire6/concat'] = net
 
       # fire7
       net = slim.conv2d(net, 48, [1, 1], stride=1, padding='SAME', scope='fire7/squeeze')
       expand1 = slim.conv2d(net, 192, [1, 1], stride=1, padding='SAME', scope='fire7/expand1')
-      expand3 = slim.conv2d(net, 192, [3, 3], stride=1, padding='VALID', scope='fire7/expand3')
-      net = tf.concat(axis=3, [expand1, expand3], name='fire7/concat')
+      expand3 = slim.conv2d(net, 192, [3, 3], stride=1, padding='SAME', scope='fire7/expand3')
+      net = tf.concat([expand1, expand3], axis=3, name='fire7/concat')
+      end_points['fire7/concat'] = net
 
       # fire8
       net = slim.conv2d(net, 64, [1, 1], stride=1, padding='SAME', scope='fire8/squeeze')
       expand1 = slim.conv2d(net, 256, [1, 1], stride=1, padding='SAME', scope='fire8/expand1')
-      expand3 = slim.conv2d(net, 256, [3, 3], stride=1, padding='VALID', scope='fire8/expand3')
-      net = tf.concat(axis=3, [expand1, expand3], name='fire8/concat')
+      expand3 = slim.conv2d(net, 256, [3, 3], stride=1, padding='SAME', scope='fire8/expand3')
+      net = tf.concat([expand1, expand3], axis=3, name='fire8/concat')
+      end_points['fire8/concat'] = net
 
       # fire9
       net = slim.conv2d(net, 64, [1, 1], stride=1, padding='SAME', scope='fire9/squeeze')
       expand1 = slim.conv2d(net, 256, [1, 1], stride=1, padding='SAME', scope='fire9/expand1')
-      expand3 = slim.conv2d(net, 256, [3, 3], stride=1, padding='VALID', scope='fire9/expand3')
-      net = tf.concat(axis=3, [expand1, expand3], name='fire9/concat')
+      expand3 = slim.conv2d(net, 256, [3, 3], stride=1, padding='SAME', scope='fire9/expand3')
+      net = tf.concat([expand1, expand3], axis=3, name='fire9/concat')
+      end_points['fire9/concat'] = net
 
       # Convert end_points_collection into a end_point dict.
-      end_points = slim.utils.convert_collection_to_dict(end_points_collection)
       if output_pred:
         net = slim.dropout(net, dropout_keep_prob, is_training=is_training,
                            scope='dropout9')
@@ -124,3 +133,4 @@ def squeezenet_v11(inputs,
         end_points['pool10'] = net
       return net, end_points
 squeezenet_v11.default_image_size = 224
+
