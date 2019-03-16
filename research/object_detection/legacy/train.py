@@ -51,6 +51,7 @@ from object_detection.builders import graph_rewriter_builder
 from object_detection.builders import model_builder
 from object_detection.legacy import trainer
 from object_detection.utils import config_util
+os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
 tf.logging.set_verbosity(tf.logging.INFO)
 
