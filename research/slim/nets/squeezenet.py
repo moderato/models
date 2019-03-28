@@ -58,9 +58,9 @@ def squeezenet_v11(inputs,
       # End points collection
       end_points = slim.utils.convert_collection_to_dict(end_points_collection)
 
-      net = slim.conv2d(inputs, 64, [3, 3], stride=2, padding='SAME', scope='conv1')
+      net = slim.conv2d(inputs, 64, [3, 3], stride=2, padding='VALID', scope='conv1')
 
-      net = slim.max_pool2d(net, [2, 2], scope='pool1')
+      net = slim.max_pool2d(net, [3, 3], stride=2, padding='VALID', scope='pool1')
 
       # fire2
       net = slim.conv2d(net, 16, [1, 1], stride=1, padding='SAME', scope='fire2/squeeze')
@@ -76,7 +76,7 @@ def squeezenet_v11(inputs,
       net = tf.concat([expand1, expand3], axis=3, name='fire3/concat')
       end_points['fire3/concat'] = net
 
-      net = slim.max_pool2d(net, [2, 2], scope='pool3')
+      net = slim.max_pool2d(net, [3, 3], stride=2, padding='VALID', scope='pool3')
 
       # fire4
       net = slim.conv2d(net, 32, [1, 1], stride=1, padding='SAME', scope='fire4/squeeze')
@@ -92,7 +92,7 @@ def squeezenet_v11(inputs,
       net = tf.concat([expand1, expand3], axis=3, name='fire5/concat')
       end_points['fire5/concat'] = net
 
-      net = slim.max_pool2d(net, [2, 2], scope='pool5')
+      net = slim.max_pool2d(net, [3, 3], stride=2, padding='VALID', scope='pool5')
 
       # fire6
       net = slim.conv2d(net, 48, [1, 1], stride=1, padding='SAME', scope='fire6/squeeze')
